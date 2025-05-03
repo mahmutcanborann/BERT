@@ -71,3 +71,10 @@ Can be integrated into voice assistants, infotainment systems, or smart vehicle 
  Author
 Mahmut Can Boran
 AI Engineer | NLP Developer | Automotive Software Enthusiast
+
+---
+
+## 📄 License
+
+This project is licensed under the [Apache 2.0 License](LICENSE) © 2025 Mahmut Can Boran.
+
