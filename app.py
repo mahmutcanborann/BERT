@@ -4,6 +4,8 @@ import json
 from transformers import BertTokenizerFast
 from model import IntentSlotBERT  # Model sınıfını çağırıyoruz
 import nest_asyncio
+import os
+
 nest_asyncio.apply()
 
 # 📌 **Intent ve Slot Etiketlerini JSON Dosyalarından Yükle**
@@ -16,11 +18,19 @@ with open("bert-turkish-intent-slot/slot_labels.json", "r") as f:
 # 📌 **Modeli ve Tokenizer'ı Yükle**
 MODEL_NAME = "dbmdz/bert-base-turkish-cased"
 tokenizer = BertTokenizerFast.from_pretrained("bert-turkish-intent-slot")
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+
+model_path = "bert-turkish-intent-slot/model.pth"
+if not os.path.exists(model_path):
+    raise FileNotFoundError("❗ model.pth dosyası eksik. Lütfen README'deki Google Drive linkinden indirip 'bert-turkish-intent-slot' klasörüne yerleştirin.")
+
 model = IntentSlotBERT(MODEL_NAME, num_intents=len(intent_labels), num_slots=len(slot_labels)).to(device)
-model.load_state_dict(torch.load("bert-turkish-intent-slot/model.pth", map_location=device))
+model.load_state_dict(torch.load(model_path, map_location=device))
 model.eval()
+
+
 
 # 📌 **Streamlit Arayüzü**
 st.title("🚗 Türkçe BERT - Intent & Slot Tanıma")
@@ -78,4 +88,4 @@ if st.button("Tahmin Yap"):
             st.write("🪟 **Camlar kapatıldı!**")
 
 
-"# dummy update" 
+# final version - test
